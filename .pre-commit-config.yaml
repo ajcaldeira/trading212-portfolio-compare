@@ -1,0 +1,34 @@
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-toml
+      - id: check-yaml
+        exclude: tests
+      - id: end-of-file-fixer
+        exclude: templates
+      - id: mixed-line-ending
+        args: [ --fix=lf ]
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.3.7
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+
+  # Type hint checking system:
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.5.1
+    hooks:
+      - id: mypy
+        exclude: "^(tests/|docs/)"
+        additional_dependencies:
+          - lxml
+          - types-requests
