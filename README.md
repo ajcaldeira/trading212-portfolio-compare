@@ -55,6 +55,10 @@ Contributions are welcome! To contribute to this project, follow these steps:
 
 1. Fill this out
 
+## What it all looks like
+
+![image](https://github.com/user-attachments/assets/56352ef6-aa1c-4dac-aae9-e6652ea01854)
+
 ## License
 
 This project is licensed under the [GPL-3.0 license](https://github.com/ajcaldeira/trading212-portfolio-compare?tab=GPL-3.0-1-ov-file).
