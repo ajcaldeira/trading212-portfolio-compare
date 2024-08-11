@@ -32,3 +32,9 @@ repos:
         additional_dependencies:
           - lxml
           - types-requests
+
+  # Gitleaks is a tool for detecting secrets in git repositories.
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
