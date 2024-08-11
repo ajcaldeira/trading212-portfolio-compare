@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from portfolio import PortfolioRequester
 import os
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 if __name__ == "__main__":

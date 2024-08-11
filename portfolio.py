@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import os
 import requests
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 class PortfolioRequester:
