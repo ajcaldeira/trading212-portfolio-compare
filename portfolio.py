@@ -3,6 +3,7 @@ from cookie_auth import Authenticator
 from datetime import datetime
 from dotenv import load_dotenv
 from pathlib import Path
+import cloudscraper
 import json
 import matplotlib.pyplot as plt
 import os
@@ -12,7 +13,6 @@ load_dotenv(override=True)
 
 
 class PortfolioRequester:
-    DEFAULT_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
     URL = "https://live.services.trading212.com/rest/v2/portfolio?period={period}"
     EXTERNAL_URL = "https://query2.finance.yahoo.com/v8/finance/chart/{ticker}?interval=1mo&range=10y"
 
@@ -27,13 +27,12 @@ class PortfolioRequester:
         Initialize the PortfolioRequester with an Authenticator and User-Agent.
         """
         self.authenticator = authenticator
-        self.user_agent = self.DEFAULT_USER_AGENT if user_agent is None else user_agent
-        self.headers: dict = {"User-Agent": self.user_agent}
         self.result: list = []
         self.start_date: str | None = None
         self.refresh_external_data = refresh_external_data
         self.external_ticker: str = external_ticker
         self.EXTERNAL_URL = self.EXTERNAL_URL.format(ticker=external_ticker)
+        self.scraper = cloudscraper.create_scraper()
 
     def get_portfolio(self, show: bool = True) -> None:
         """
@@ -49,15 +48,13 @@ class PortfolioRequester:
         """
         Perform the GET request to retrieve portfolio snapshot data.
         """
-        historical_snapshots_response = requests.get(
+        historical_snapshots_response = self.scraper.get(
             self.URL.format(period=T212Periods.ALL.value),
             cookies=self.authenticator.get_cookies(),
-            headers=self.headers,
         )
-        today_snapshots_response = requests.get(
+        today_snapshots_response = self.scraper.get(
             self.URL.format(period=T212Periods.LAST_DAY.value),
             cookies=self.authenticator.get_cookies(),
-            headers=self.headers,
         )
 
         try:
@@ -247,7 +244,7 @@ class PortfolioRequester:
         data_path = Path.cwd() / "data" / f"{self.external_ticker}.json"
 
         if self.refresh_external_data:
-            response = requests.get(self.EXTERNAL_URL, headers=self.headers)
+            response = self.scraper.get(self.EXTERNAL_URL)
             try:
                 response.raise_for_status()
             except requests.exceptions.HTTPError as e:

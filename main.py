@@ -9,7 +9,6 @@ load_dotenv(override=True)
 
 if __name__ == "__main__":
     cookie_string: str = os.getenv("COOKIE") or input("Enter the cookie string: ")
-
     auth: Authenticator = Authenticator(cookie_string=cookie_string)
 
     PortfolioRequester(
