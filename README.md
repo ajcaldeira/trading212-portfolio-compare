@@ -8,7 +8,7 @@ Moreover, I want to compare how my portfolio performs against a specific ticker.
 
 ## Features
 
-- Cookie Authorization as T212 does not offer the required data int he API
+- Cookie Authorization as T212 does not offer the required data in the API
 - See your portfolio percentage gain/loss over time (using the same snapshot as the home page in T212)
 - Overlay any ticker over your portfolio percentage gain/loss line on a graph
 
