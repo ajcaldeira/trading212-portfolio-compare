@@ -16,7 +16,11 @@ Moreover, I want to compare how my portfolio performs against a specific ticker.
 
 To install this project, follow these steps:
 
-1. Fill this out
+1. Install [Poetry](https://python-poetry.org/docs/#installing-with-pipx) and Make (if you're on windows: `choco install make`) on your system
+2. Clone the repo
+3. Run `poetry install` in your terminal
+4. Run `poetry shell` in your terminal to activate the virtual environment
+5. Run `make compare ticker=AAPL` (any ticker you want to compare against)
 
 
 ## Usage
@@ -34,26 +38,10 @@ To use this project, follow these guidelines:
 8. Paste the cooke data in the .env file and save it
 
 ### 2. Run the software
-1. In the terminal run the command `make run-me` or `python3 main.py`
-2. To change the ticker your portfolio compares against, in the main.py file, you can edit the `external_ticker=ExternalData.VWRLL.value` line and replace the external_ticker with any of the items from the `ExternalData` Enum:
-```
-class ExternalData(Enum):
-    SP_500 = "%5EGSPC"
-    PPL = "ppl"
-    VWRLL = "VWRL.L"
-    NASDAQ100 = "CNX1.L"
-```
-For example, if I want to compare against the S&P 500 i would change the line to:
-`external_ticker=ExternalData.SP_500.value`
+1. In the terminal run the command `make run-me ticker=AAPL` or `python3 main.py --ticker AAPL`
 
 #### Compare against a custom ticker
 If you want to compare against a ticker that is not there, you can add your own ticker from yahoo finance. (make sure to use the ticker name specified in the URL of the chart page). Just add it to the enum and replace the value as I have shown above.
-
-## Contributing
-
-Contributions are welcome! To contribute to this project, follow these steps:
-
-1. Fill this out
 
 ## What it all looks like
 
