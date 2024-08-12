@@ -1,4 +1,3 @@
-from commons import ExternalData
 from cookie_auth import Authenticator
 from dotenv import load_dotenv
 from portfolio import PortfolioRequester
@@ -14,5 +13,5 @@ if __name__ == "__main__":
     PortfolioRequester(
         authenticator=auth,
         refresh_external_data=True,
-        external_ticker=ExternalData.VWRLL.value,
+        external_ticker="APPL",
     ).get_portfolio(show=True)
