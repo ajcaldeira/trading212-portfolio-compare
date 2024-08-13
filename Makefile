@@ -16,6 +16,6 @@ pre-commit:
 # 	poetry run pytest
 
 # make run-me - run the project
-.PHONY: run-me
-run-me:
-	python main.py
+.PHONY: compare
+compare:
+	python main.py --ticker $(ticker)

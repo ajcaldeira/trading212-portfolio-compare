@@ -1,4 +1,4 @@
-from commons import ExternalData, T212Periods
+from commons import T212Periods
 from cookie_auth import Authenticator
 from datetime import datetime
 from dotenv import load_dotenv
@@ -19,7 +19,6 @@ class PortfolioRequester:
     def __init__(
         self,
         authenticator: Authenticator,
-        user_agent: str | None = None,
         external_ticker: str = "5EGSPC",
         refresh_external_data: bool = False,
     ):
@@ -166,7 +165,7 @@ class PortfolioRequester:
         )
 
         match against:
-            case ExternalData.PPL.value:
+            case "T212PPL":
                 ax2 = ax1.twinx()
                 color = "tab:blue"
                 self.y2 = [snapshot["ppl"] for snapshot in self.result]
@@ -261,9 +260,23 @@ class PortfolioRequester:
             with data_path.open("r") as file:
                 data = json.load(file)
 
-        # Extract timestamps and adjusted close prices
-        timestamps = data["chart"]["result"][0]["timestamp"]
-        adjclose = data["chart"]["result"][0]["indicators"]["adjclose"][0]["adjclose"]
+        # Error check that the ticker is valid and the data is available
+        if data["chart"]["error"]:
+            Path.unlink(data_path)
+            raise Exception(
+                f"Failed to retrieve data: {data['chart']['error']['description']}. Ticker {self.external_ticker} may be invalid."
+            )
+
+        try:
+            # Extract timestamps and adjusted close prices
+            timestamps = data["chart"]["result"][0]["timestamp"]
+            adjclose = data["chart"]["result"][0]["indicators"]["adjclose"][0][
+                "adjclose"
+            ]
+        except KeyError:
+            raise Exception(
+                "Failed to extract data from the external data. Check your ticker."
+            )
 
         # Convert the timestamps to dates
         dates = [
